@@ -6,7 +6,7 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <meta name="apple-mobile-web-app-title" content="Gia Phả">
-    <link rel="apple-touch-icon" href="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d7/Icon_Family_Tree.svg/1024px-Icon_Family_Tree.svg.png">
+    <link rel="apple-touch-icon" href="logo.png">
     
     <title>Gia Phả Họ Nùng</title>
     <style>
@@ -20,8 +20,9 @@
         #loginView { display: flex; flex-direction: column; align-items: center; justify-content: flex-start; padding-top: 15vh; height: 100vh; background: white; padding-left: 24px; padding-right: 24px; }
         .input-box { width: 100%; max-width: 320px; padding: 14px; margin: 8px 0; border: 1px solid #ccc; border-radius: 12px; font-size: 15px; outline: none;}
         .input-box:focus { border: 2px solid #1E3A8A; }
-        .btn-primary { width: 100%; max-width: 320px; background: #1E3A8A; color: white; border: none; padding: 14px; border-radius: 12px; font-size: 15px; font-weight: bold; cursor: pointer; margin-top: 8px; box-shadow: 0 4px 6px rgba(30,58,138,0.3);}
+        .btn-primary { width: 100%; max-width: 320px; background: #1E3A8A; color: white; border: none; padding: 14px; border-radius: 12px; font-size: 15px; font-weight: bold; cursor: pointer; margin-top: 8px; box-shadow: 0 4px 6px rgba(30,58,138,0.3); transition: 0.2s;}
         .btn-primary:active { transform: scale(0.98); }
+        .btn-primary:disabled { background: #9E9E9E; cursor: not-allowed; transform: none; box-shadow: none; }
         .btn-danger { background: #D32F2F; box-shadow: 0 4px 6px rgba(211,47,47,0.3); }
         
         /* === GIAO DIỆN SƠ ĐỒ (CÂY) === */
@@ -63,16 +64,13 @@
         .modal-content { background: white; width: 90%; max-width: 450px; max-height: 85vh; border-radius: 16px; overflow-y: auto; padding: 20px; position: relative; box-shadow: 0 10px 25px rgba(0,0,0,0.2);}
         .modal-close { position: absolute; top: 12px; right: 16px; font-size: 26px; color: #757575; cursor: pointer; font-weight: bold; z-index: 10;}
         
-        /* Custom UI trong Modal */
         .modal-avatar { width: 90px; height: 90px; border-radius: 50%; object-fit: cover; border: 3px solid #1E3A8A; margin: 0 auto 16px; display: block;}
         .modal-title { color: #1E3A8A; font-size: 15px; font-weight: bold; margin-top: 16px; margin-bottom: 8px; border-bottom: 2px solid #E0E0E0; padding-bottom: 4px;}
         
-        /* Bảng chi tiết */
         .info-row { display: flex; padding: 6px 0; font-size: 14px;}
         .info-label { flex: 1; color: #1E3A8A; font-weight: bold; }
         .info-value { flex: 2; color: #000; }
         
-        /* Bảng chọn (Picker) */
         .picker-row { display: flex; align-items: center; padding: 8px 0; border-bottom: 1px solid #eee; }
         .picker-label { font-weight: bold; color: #455A64; width: 80px; font-size: 13px;}
         .picker-value { flex: 1; color: #1E3A8A; font-size: 13px; font-weight: bold; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; padding: 0 5px;}
@@ -81,23 +79,26 @@
         .list-item { padding: 12px; border-bottom: 1px solid #eee; font-size: 14px; cursor: pointer; }
         .list-item:active { background: #f5f5f5; }
         .list-item.selected { font-weight: bold; color: #1E3A8A; background: #E3F2FD; }
-
     </style>
 </head>
 <body>
 
     <div id="loginView">
+        <img src="logo.png" alt="Logo Gia Phả" style="width: 150px; height: 150px; margin-bottom: 20px; object-fit: contain;">
         <h2 style="color: #1E3A8A; margin-bottom: 5px; font-size: 26px;">GIA PHẢ HỌ NÙNG</h2>
         <p style="color: #757575; font-style: italic; margin-bottom: 30px; font-size: 15px;">Lưu giữ cội nguồn - Kết nối tương lai</p>
         
         <input type="email" id="emailInput" class="input-box" placeholder="Nhập Email của bạn...">
-        <button class="btn-primary" onclick="login()">ĐĂNG NHẬP ĐỒNG BỘ</button>
+        <button class="btn-primary" id="btnLogin" onclick="login()">ĐĂNG NHẬP ĐỒNG BỘ</button>
         <p id="loginError" style="color: #D32F2F; font-size: 14px; display: none; margin-top: 16px; font-weight: bold;">Email không hợp lệ hoặc chưa được cấp quyền!</p>
         <div id="loading">⏳ Đang tải dữ liệu từ hệ thống...</div>
     </div>
 
     <div id="mainApp">
-        <div class="header">Cây Gia Phả</div>
+        <div class="header" style="display: flex; align-items: center; justify-content: center; gap: 10px;">
+            <img src="logo.png" alt="Logo" style="width: 32px; height: 32px; object-fit: contain;">
+            Cây Gia Phả
+        </div>
         
         <div class="admin-panel" id="adminPanel">
             <p style="font-size: 12px; color: gray; margin-bottom: 8px;">Bảng điều khiển Quản trị</p>
@@ -117,7 +118,10 @@
     </div>
 
     <div id="searchView">
-        <div class="header">Tìm Kiếm</div>
+        <div class="header" style="display: flex; align-items: center; justify-content: center; gap: 10px;">
+            <img src="logo.png" alt="Logo" style="width: 32px; height: 32px; object-fit: contain;">
+            Tìm Kiếm
+        </div>
         <div style="padding: 20px; display: flex; flex-direction: column; align-items: center;">
             <input type="text" id="searchInput" class="input-box" placeholder="Nhập tên hoặc mã ID...">
             <button class="btn-primary" onclick="searchMembers()">TÌM KIẾM</button>
@@ -126,7 +130,10 @@
     </div>
 
     <div id="profileView">
-        <div class="header">Trang Chủ</div>
+        <div class="header" style="display: flex; align-items: center; justify-content: center; gap: 10px;">
+            <img src="logo.png" alt="Logo" style="width: 32px; height: 32px; object-fit: contain;">
+            Trang Chủ
+        </div>
         <div style="padding: 24px; display: flex; flex-direction: column; align-items: center;">
             <h3 id="profileName" style="color: #1E3A8A; font-size: 22px; margin-bottom: 4px;"></h3>
             <p id="profileRole" style="color: #757575; font-size: 14px; margin-bottom: 30px;"></p>
@@ -214,7 +221,7 @@
             <input type="text" id="inAvatar" class="input-box" placeholder="Link ảnh đại diện">
             <input type="text" id="inStatus" class="input-box" placeholder="Trạng thái (Còn sống/Đã mất)">
 
-            <button class="btn-primary" style="margin-top: 20px;" onclick="submitAdminForm()">💾 LƯU ĐỒNG BỘ</button>
+            <button class="btn-primary" id="btnSaveSync" style="margin-top: 20px;" onclick="submitAdminForm()">💾 LƯU ĐỒNG BỘ</button>
         </div>
     </div>
 
@@ -222,9 +229,7 @@
         <div class="modal-content">
             <span class="modal-close" onclick="closeModal('pickerModal')">×</span>
             <div class="modal-title" id="pickerTitle">CHỌN NGƯỜI</div>
-            
             <input type="text" id="pickerSearch" class="input-box" placeholder="Gõ tên hoặc ID để tìm..." onkeyup="renderPickerList()">
-            
             <div id="pickerList" style="max-height: 50vh; overflow-y: auto; margin-top: 10px; border: 1px solid #ccc; border-radius: 8px;">
                 </div>
         </div>
@@ -252,32 +257,29 @@
         let currentMemberObj = null;
         let currentUser = null;
 
-        // Biến tạm để lưu dữ liệu Picker khi đang nhập form
         let tempChaId = "", tempMeId = "", tempVcId = "";
         let currentPickingField = ""; 
 
-        // Hàm tiện ích: Xử lý dữ liệu đọc từ Excel
-        function getVal(obj, key1, key2) { return (obj[key1] || obj[key2] || "").toString().trim(); }
+        function getVal(obj, key1, key2) { return String(obj[key1] || obj[key2] || "").trim(); }
         function memberId(obj) { return getVal(obj, "ID", "Chi 1D"); }
         function memberChaId(obj) { return getVal(obj, "Cha_ID", "Cha_Chi 1D"); }
         function memberMeId(obj) { return getVal(obj, "Me_ID", "Me_Chi 1D"); }
         function memberVcId(obj) { return getVal(obj, "VoChong_ID", "VoChong_Chi 1D"); }
         
         function normChi(str) { 
-            let c = (str||"").toLowerCase().replace(/ /g, ""); 
+            let c = String(str||"").toLowerCase().replace(/ /g, ""); 
             if(c==="1"||c==="i") return "chi1"; 
             if(c==="2"||c==="ii") return "chi2"; 
             if(c==="3"||c==="iii") return "chi3"; 
             return c; 
         }
 
-        // ==========================================
-        // KHỐI ĐĂNG NHẬP & PHÂN QUYỀN
-        // ==========================================
         async function login() {
             const email = document.getElementById("emailInput").value.trim().toLowerCase();
             if (!email) return alert("Vui lòng nhập Email!");
 
+            const btnLogin = document.getElementById("btnLogin");
+            btnLogin.disabled = true;
             document.getElementById("loading").style.display = "block";
             document.getElementById("loginError").style.display = "none";
 
@@ -289,19 +291,17 @@
                     allMembers = await resGiaPha.json();
                 }
 
-                // Dò quyền user
-                const user = allUsers.find(u => (u.Email || "").toLowerCase().trim() === email);
+                const user = allUsers.find(u => String(u.Email || "").toLowerCase().trim() === email);
                 if (user) {
                     currentUser = user;
-                    // Chuẩn hóa quyền giống hệt thuật toán Android
-                    currentUser.RoleNorm = getVal(user, "Quyen", "quyen").toLowerCase().replace(/ /g, "");
+                    currentUser.RoleNorm = String(getVal(user, "Quyen", "quyen")).toLowerCase().replace(/ /g, "");
                     currentUser.ChiNorm = normChi(getVal(user, "Chiho", "ChiHo"));
 
                     currentMemberId = allMembers.length > 0 ? memberId(allMembers[0]) : "";
                     
                     document.getElementById("loginView").style.display = "none";
                     document.getElementById("bottomNav").style.display = "flex";
-                    document.getElementById("profileName").innerText = "👤 " + (user.HoTen || "Thành viên");
+                    document.getElementById("profileName").innerText = "👤 " + String(user.HoTen || "Thành viên");
                     document.getElementById("profileRole").innerText = `Vai trò: ${currentUser.RoleNorm.toUpperCase()} | QL: ${currentUser.ChiNorm || "Toàn họ"}`;
                     
                     switchTab('mainApp');
@@ -312,6 +312,7 @@
             } catch (err) {
                 alert("Lỗi kết nối mạng. Vui lòng kiểm tra lại Link Google Script!");
             }
+            btnLogin.disabled = false;
             document.getElementById("loading").style.display = "none";
         }
 
@@ -334,17 +335,14 @@
         function checkDeletePerm(mObj) {
             if(!currentUser || !mObj) return false;
             let r = currentUser.RoleNorm;
-            let creator = (mObj.NguoiTao || "").toLowerCase().trim();
-            let myEmail = currentUser.Email.toLowerCase().trim();
+            let creator = String(mObj.NguoiTao || "").toLowerCase().trim();
+            let myEmail = String(currentUser.Email).toLowerCase().trim();
             return checkEditPerm(mObj) && (r === "admin" || r === "truongho" || creator === myEmail);
         }
 
-        // ==========================================
-        // KHỐI RENDER SƠ ĐỒ
-        // ==========================================
         function findMemberById(id) {
             if (!id) return null;
-            return allMembers.find(m => memberId(m).toLowerCase() === id.toLowerCase());
+            return allMembers.find(m => memberId(m).toLowerCase() === String(id).toLowerCase());
         }
 
         function createCard(title, obj, bgClass, isCurrent = false) {
@@ -352,16 +350,16 @@
             div.className = "card " + bgClass + (isCurrent ? " bg-hientai" : "");
             
             let imgHtml = "";
-            const linkAnh = (obj.Anh || "").trim();
+            const linkAnh = String(obj.Anh || "").trim();
             if(linkAnh) imgHtml = `<img class="card-avatar" src="${linkAnh}" style="display:block;" onerror="this.style.display='none'">`;
             
-            let desc = "Sinh: " + (obj.NamSinh || "?");
-            if(isCurrent) desc = `ID: ${memberId(obj)} | ${(obj.ChiHo||"")}<br>👆 Chạm xem chi tiết`;
+            let desc = "Sinh: " + String(obj.NamSinh || "?");
+            if(isCurrent) desc = `ID: ${memberId(obj)} | ${String(obj.ChiHo||"")}<br>👆 Chạm xem chi tiết`;
 
             div.innerHTML = `
                 ${imgHtml}
                 <div class="card-title">${title}</div>
-                <div class="card-name">${obj.HoTen || "(Chưa có tên)"}</div>
+                <div class="card-name">${String(obj.HoTen || "(Chưa có tên)")}</div>
                 <div class="card-desc">${desc}</div>
             `;
             
@@ -376,7 +374,6 @@
             currentMemberId = id;
             currentMemberObj = current;
 
-            // Kiểm tra phân quyền để hiện bảng Quản trị
             const adminPanel = document.getElementById("adminPanel");
             if(checkEditPerm(current)) adminPanel.style.display = "block";
             else adminPanel.style.display = "none";
@@ -388,7 +385,6 @@
             
             let hasOB=false, hasCM=false, hasCC=false;
 
-            // 1. TẦNG CHA MẸ & SUY LUẬN LOGIC
             let cha = findMemberById(memberChaId(current));
             let me = findMemberById(memberMeId(current));
             if (!me && cha) me = findMemberById(memberVcId(cha));
@@ -397,7 +393,6 @@
             if (cha) { layChaMe.appendChild(createCard("CHA", cha, "bg-cha")); hasCM = true; }
             if (me) { layChaMe.appendChild(createCard("MẸ", me, "bg-me")); hasCM = true; }
 
-            // 2. TẦNG ÔNG BÀ NỘI
             if (cha) {
                 let ongNoi = findMemberById(memberChaId(cha));
                 let baNoi = findMemberById(memberMeId(cha));
@@ -408,25 +403,22 @@
                 if (baNoi) { layOngBa.appendChild(createCard("BÀ NỘI", baNoi, "bg-ongba")); hasOB = true;}
             }
 
-            // 3. HIỆN TẠI & VỢ CHỒNG
-            const doi = current.Doi || "?";
+            const doi = String(current.Doi || "?");
             layHienTai.appendChild(createCard("★ ĐANG CHỌN — Đời " + doi + " ★", current, "bg-hientai", true));
             
             const vc = findMemberById(memberVcId(current));
             if (vc) layHienTai.appendChild(createCard("VỢ / CHỒNG", vc, "bg-vochong"));
 
-            // 4. CON CÁI
             allMembers.forEach(m => {
                 if (memberChaId(m).toLowerCase() === id.toLowerCase() || memberMeId(m).toLowerCase() === id.toLowerCase()) {
                     hasCC = true;
                     const chiNorm = normChi(m.ChiHo);
                     let bg = "bg-chikhac";
                     if(chiNorm === "chi1") bg = "bg-chi1"; if(chiNorm === "chi2") bg = "bg-chi2"; if(chiNorm === "chi3") bg = "bg-chi3";
-                    layConCai.appendChild(createCard("CON CÁI | Đời " + (m.Doi||"?") + " (" + (m.ChiHo||"") + ")", m, bg));
+                    layConCai.appendChild(createCard("CON CÁI | Đời " + String(m.Doi||"?") + " (" + String(m.ChiHo||"") + ")", m, bg));
                 }
             });
 
-            // Hiện/ẩn đường nối
             document.getElementById("conn1").style.display = (hasOB && hasCM) ? "block" : "none";
             document.getElementById("conn2").style.display = (hasCM) ? "block" : "none";
             document.getElementById("conn3").style.display = (hasCC) ? "block" : "none";
@@ -434,9 +426,6 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        // ==========================================
-        // KHỐI GIAO DIỆN & MODALS (CHI TIẾT)
-        // ==========================================
         function switchTab(tabId) {
             document.getElementById("mainApp").style.display = "none";
             document.getElementById("searchView").style.display = "none";
@@ -461,7 +450,7 @@
         function openDetailModal(member) {
             const modal = document.getElementById("detailModal");
             const avt = document.getElementById("modAvatar");
-            const linkAnh = (member.Anh || "").trim();
+            const linkAnh = String(member.Anh || "").trim();
             if(linkAnh) { avt.src = linkAnh; avt.style.display = "block"; } else { avt.style.display = "none"; }
 
             let infoHtml = "";
@@ -471,11 +460,10 @@
                 {l: "Chi họ", v: member.ChiHo}, {l: "Địa chỉ", v: member.DiaChi}, {l: "Điện thoại", v: member.DienThoai}, {l: "Trạng thái", v: member.TrangThai}
             ];
             fields.forEach(f => {
-                if(f.v) infoHtml += `<div class="info-row"><div class="info-label">${f.l}:</div><div class="info-value">${f.v}</div></div>`;
+                if(f.v) infoHtml += `<div class="info-row"><div class="info-label">${f.l}:</div><div class="info-value">${String(f.v)}</div></div>`;
             });
             document.getElementById("modInfo").innerHTML = infoHtml;
 
-            // Tổ tiên
             let ancestorArr = [];
             let curr = member;
             let visited = new Set();
@@ -483,7 +471,7 @@
                 let cId = memberId(curr);
                 if(!cId || visited.has(cId)) break;
                 visited.add(cId);
-                ancestorArr.push(`Đời ${curr.Doi||"?"}: ${curr.HoTen||"?"}`);
+                ancestorArr.push(`Đời ${String(curr.Doi||"?")}: ${String(curr.HoTen||"?")}`);
                 curr = findMemberById(memberChaId(curr));
             }
             if(ancestorArr.length > 1) {
@@ -493,9 +481,8 @@
                 document.getElementById("modAncestorSection").style.display = "none";
             }
 
-            // Các đời
             const myChi = normChi(member.ChiHo);
-            document.getElementById("modGenTitle").innerText = `👨‍👩‍👧‍👦 CÁC ĐỜI TRONG GIA PHẢ (${member.ChiHo||"Tất cả"})`;
+            document.getElementById("modGenTitle").innerText = `👨‍👩‍👧‍👦 CÁC ĐỜI TRONG GIA PHẢ (${String(member.ChiHo||"Tất cả")})`;
             
             let byDoi = {};
             allMembers.forEach(m => {
@@ -514,7 +501,7 @@
                     const isSel = (mId.toLowerCase() === memberId(member).toLowerCase());
                     const cls = isSel ? "list-item selected" : "list-item";
                     const pre = isSel ? "👉 " : "• ";
-                    genHtml += `<div class="${cls}" style="padding:8px 0; border:none;" onclick="closeModal('detailModal'); switchTab('mainApp'); renderTree('${mId}')">${pre} ${m.HoTen||"?"} (${mId})</div>`;
+                    genHtml += `<div class="${cls}" style="padding:8px 0; border:none;" onclick="closeModal('detailModal'); switchTab('mainApp'); renderTree('${mId}')">${pre} ${String(m.HoTen||"?")} (${mId})</div>`;
                 });
             });
             document.getElementById("modGenerations").innerHTML = genHtml;
@@ -522,9 +509,6 @@
             modal.classList.add("show");
         }
 
-        // ==========================================
-        // KHỐI TÌM KIẾM
-        // ==========================================
         function searchMembers() {
             const query = document.getElementById("searchInput").value.trim().toLowerCase();
             const resDiv = document.getElementById("searchResults");
@@ -533,11 +517,11 @@
 
             let count = 0;
             allMembers.forEach(m => {
-                const name = (m.HoTen || "").toLowerCase();
+                const name = String(m.HoTen || "").toLowerCase();
                 const id = memberId(m).toLowerCase();
                 if (name.includes(query) || id.includes(query)) {
                     count++;
-                    const card = createCard("ID: " + memberId(m) + " | Đời " + (m.Doi||"?"), m, "bg-cha");
+                    const card = createCard("ID: " + memberId(m) + " | Đời " + String(m.Doi||"?"), m, "bg-cha");
                     card.onclick = () => { renderTree(memberId(m)); switchTab('mainApp'); };
                     resDiv.appendChild(card);
                 }
@@ -545,14 +529,11 @@
             if(count === 0) resDiv.innerHTML = "<p style='color:gray; width:100%; text-align:center;'>Không tìm thấy ai!</p>";
         }
 
-        // ==========================================
-        // KHỐI QUẢN TRỊ (THÊM / SỬA / XÓA)
-        // ==========================================
         function getDisplayName(id) {
             if(!id) return "(Chưa chọn)";
             let m = findMemberById(id);
             if(!m) return id + " (Không rõ)";
-            return m.HoTen + " (" + id + ")";
+            return String(m.HoTen) + " (" + id + ")";
         }
 
         function generateNextId() {
@@ -568,8 +549,16 @@
             return prefix + (maxNum + 1).toString().padStart(len, '0');
         }
 
+        // 💡 BẢN NÂNG CẤP: TỰ ĐỘNG XÓA TÊN KHI BẤM GỢI Ý ID MỚI
         function useSuggestId() {
             document.getElementById("inId").value = generateNextId();
+            
+            // Xóa tên người cũ để bắt đầu nhập tên người mới
+            const inNameField = document.getElementById("inName");
+            inNameField.value = ""; 
+            
+            // Đặt con trỏ nhấp nháy ngay tại ô tên để gõ luôn
+            inNameField.focus(); 
         }
 
         function openFormModal(member) {
@@ -581,17 +570,17 @@
 
             document.getElementById("suggestId").innerText = `💡 Gợi ý ID tiếp theo: ${generateNextId()} (Chạm để dùng)`;
 
-            document.getElementById("inId").value = ""; // Luôn để trống gợi ý thêm mới
-            document.getElementById("inName").value = member.HoTen || "";
-            document.getElementById("inSex").value = member.GioiTinh || "";
-            document.getElementById("inYob").value = member.NamSinh || "";
-            document.getElementById("inYod").value = member.NamMat || "";
-            document.getElementById("inDoi").value = member.Doi || "";
-            document.getElementById("inChi").value = member.ChiHo || "";
-            document.getElementById("inAddress").value = member.DiaChi || "";
-            document.getElementById("inPhone").value = member.DienThoai || "";
-            document.getElementById("inAvatar").value = member.Anh || "";
-            document.getElementById("inStatus").value = member.TrangThai || "";
+            document.getElementById("inId").value = ""; 
+            document.getElementById("inName").value = String(member.HoTen || "");
+            document.getElementById("inSex").value = String(member.GioiTinh || "");
+            document.getElementById("inYob").value = String(member.NamSinh || "");
+            document.getElementById("inYod").value = String(member.NamMat || "");
+            document.getElementById("inDoi").value = String(member.Doi || "");
+            document.getElementById("inChi").value = String(member.ChiHo || "");
+            document.getElementById("inAddress").value = String(member.DiaChi || "");
+            document.getElementById("inPhone").value = String(member.DienThoai || "");
+            document.getElementById("inAvatar").value = String(member.Anh || "");
+            document.getElementById("inStatus").value = String(member.TrangThai || "");
 
             updatePickerLabels();
         }
@@ -602,7 +591,6 @@
             document.getElementById("valVc").innerText = getDisplayName(tempVcId);
         }
 
-        // Xử lý Hộp thoại Picker
         function openPickerModal(field) {
             currentPickingField = field;
             document.getElementById("pickerTitle").innerText = "CHỌN " + (field==="Cha_ID"?"CHA":field==="Me_ID"?"MẸ":"VỢ/CHỒNG");
@@ -616,7 +604,6 @@
             const listDiv = document.getElementById("pickerList");
             listDiv.innerHTML = "";
 
-            // Nút Clear
             const clearDiv = document.createElement("div");
             clearDiv.className = "list-item";
             clearDiv.style.color = "#D32F2F";
@@ -627,15 +614,15 @@
             let count = 0;
             allMembers.forEach(m => {
                 let id = memberId(m);
-                let name = (m.HoTen||"").toLowerCase();
+                let name = String(m.HoTen||"").toLowerCase();
                 if(query && !name.includes(query) && !id.toLowerCase().includes(query)) return;
                 
                 count++;
-                if(count > 100) return; // Giới hạn hiển thị cho đỡ lag
+                if(count > 100) return; 
 
                 const div = document.createElement("div");
                 div.className = "list-item";
-                div.innerHTML = `<b>${m.HoTen||"?"}</b> (${id}) - Đời ${m.Doi||"?"}`;
+                div.innerHTML = `<b>${String(m.HoTen||"?")}</b> (${id}) - Đời ${String(m.Doi||"?")}`;
                 div.onclick = () => selectPickerItem(id);
                 listDiv.appendChild(div);
             });
@@ -649,26 +636,24 @@
             closeModal('pickerModal');
         }
 
-        // Nút Lưu Đồng Bộ
         async function submitAdminForm() {
             const inId = document.getElementById("inId").value.trim();
             const isNew = inId !== "";
             const finalId = isNew ? inId : memberId(currentMemberObj);
 
-            // Kiểm tra trùng ID
             if(isNew && findMemberById(finalId)) {
                 alert(`LỖI: ID '${finalId}' đã tồn tại trên hệ thống!`);
                 return;
             }
 
             let finalChaId = (isNew && tempChaId === memberChaId(currentMemberObj)) ? memberId(currentMemberObj) : tempChaId;
-            let finalDoi = document.getElementById("inDoi").value.trim();
-            let baseDoi = currentMemberObj.Doi ? currentMemberObj.Doi.trim() : "1";
+            let inDoiVal = document.getElementById("inDoi").value.trim();
+            let baseDoi = currentMemberObj && currentMemberObj.Doi ? String(currentMemberObj.Doi).trim() : "1";
 
-            // Tự động suy luận Đời nếu thêm mới
+            let finalDoi = inDoiVal;
             if(isNew && (finalDoi === "" || finalDoi === baseDoi)) {
                 let cObj = findMemberById(finalChaId);
-                let cDoi = cObj ? parseInt(cObj.Doi) : parseInt(baseDoi);
+                let cDoi = cObj && cObj.Doi ? parseInt(cObj.Doi) : parseInt(baseDoi);
                 if(isNaN(cDoi)) cDoi = 1;
                 finalDoi = (cDoi + 1).toString();
             } else if (!finalDoi) {
@@ -694,22 +679,39 @@
                 NguoiTao: currentUser.Email
             };
 
+            const btnSaveSync = document.getElementById("btnSaveSync");
             try {
-                alert("Đang gửi dữ liệu đồng bộ...");
+                btnSaveSync.innerText = "⏳ ĐANG XỬ LÝ...";
+                btnSaveSync.disabled = true;
+
                 await fetch(webAppUrl, {
                     method: "POST",
                     mode: "no-cors",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify(payload)
                 });
-                alert("Đã lưu thành công! Vui lòng tải lại ứng dụng để xem thay đổi.");
+
+                let existingIndex = allMembers.findIndex(m => memberId(m).toLowerCase() === finalId.toLowerCase());
+                if (existingIndex >= 0) {
+                    allMembers[existingIndex] = payload;
+                } else {
+                    allMembers.push(payload);
+                }
+
+                alert("Đã lưu thành công!");
                 closeModal('formModal');
+                
+                btnSaveSync.innerText = "💾 LƯU ĐỒNG BỘ";
+                btnSaveSync.disabled = false;
+                renderTree(currentMemberId);
+                
             } catch (e) {
                 alert("Lỗi mạng khi lưu dữ liệu!");
+                btnSaveSync.innerText = "💾 LƯU ĐỒNG BỘ";
+                btnSaveSync.disabled = false;
             }
         }
 
-        // Xóa thành viên
         async function deleteMember() {
             if(!checkDeletePerm(currentMemberObj)) return alert("Bạn không có quyền xóa thành viên này!");
             
@@ -722,7 +724,14 @@
                         headers: { "Content-Type": "application/json" },
                         body: JSON.stringify({ action: "delete", ID: id })
                     });
-                    alert("Đã gửi yêu cầu xóa!");
+                    
+                    allMembers = allMembers.filter(m => memberId(m).toLowerCase() !== id.toLowerCase());
+                    alert("Đã xóa thành công!");
+                    
+                    let chaId = memberChaId(currentMemberObj);
+                    if(findMemberById(chaId)) renderTree(chaId);
+                    else if(allMembers.length > 0) renderTree(memberId(allMembers[0]));
+
                 } catch(e) {
                     alert("Lỗi mạng khi xóa!");
                 }
